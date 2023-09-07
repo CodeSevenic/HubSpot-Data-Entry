@@ -121,7 +121,8 @@ async function createContactsBatch(accessToken, contacts) {
       } else if (
         error.response &&
         error.response.data &&
-        error.response.data.message.includes('INVALID_EMAIL')
+        typeof error.response.data?.message === 'string' &&
+        error.response.data?.message?.includes('INVALID_EMAIL')
       ) {
         // Handle invalid email error
         console.error('Invalid email for contact:', contact['E-Mail'], 'Skipping...');
