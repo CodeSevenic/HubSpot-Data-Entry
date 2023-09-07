@@ -12,7 +12,7 @@ console.log('API_KEY: ', ACCESS_TOKEN);
 // Configure axios-retry
 axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
-const workbook = xlsx.readFile('./Aerzte_BW_Parsing_Leads_Ready.xlsx');
+const workbook = xlsx.readFile('./vorlage_adressdatei_19_07_2023_02_Hessen_Zahnärzte.xlsx');
 const sheet_name_list = workbook.SheetNames;
 let jsonData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
@@ -41,30 +41,10 @@ const logDuplicateEmails = () => {
   });
 };
 
-// Log duplicates based on the company name property
-const logDuplicateCompanies = () => {
-  let seenCompanies = {};
-  jsonData.forEach((a) => {
-    if (a['Company Name'] in seenCompanies) {
-      if (seenCompanies[a['Company Name']] === 1) {
-        // Only log the first time a duplicate is found
-        console.log('Duplicate Company Name: ', a['Company Name']);
-      }
-      seenCompanies[a['Company Name']]++;
-    } else {
-      seenCompanies[a['Company Name']] = 1;
-    }
-  });
-};
-
 // Call the new functions
 // logDuplicateEmails();
 // logDuplicateCompanies();
 
-// console.log('Contacts: ', contactsData);
-// console.log('Deals: ', dealsData);
-
-// Function to validate email address
 // Function to validate email address
 function validateEmail(email) {
   const re = /^[\w\.-]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -118,14 +98,6 @@ async function createContactsBatch(accessToken, contacts) {
       if (error.response && error.response.status === 409) {
         console.error('A contact with the same ID already exists. Skipping...');
         continue; // Skip this contact and move on to the next one
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message.includes('INVALID_EMAIL')
-      ) {
-        // Handle invalid email error
-        console.error('Invalid email for contact:', contact['E-Mail'], 'Skipping...');
-        continue; // Skip this contact with invalid email and move on to the next one
       } else {
         console.error('Error creating contacts:', error);
         throw error; // Re-throw the error for axios-retry to catch and retry
@@ -133,54 +105,6 @@ async function createContactsBatch(accessToken, contacts) {
     }
 
     // Delay next request for rate limiting (100 requests per 10 seconds)
-    await new Promise((resolve) => setTimeout(resolve, 100));
-  }
-}
-
-async function createDealsBatch(accessToken, deals) {
-  const headers = {
-    Authorization: `Bearer ${accessToken}`,
-    'Content-Type': 'application/json',
-  };
-
-  const apiUrl = `https://api.hubapi.com/crm/v3/objects/deals/batch/create`;
-
-  try {
-    const response = await axios.post(
-      apiUrl,
-      {
-        inputs: deals.map((deal) => ({
-          properties: {
-            dealname: deal['Company Name'], // Using company name as deal name
-            pipeline: 'default',
-          },
-        })),
-      },
-      {
-        headers: headers,
-      }
-    );
-
-    return response.data;
-  } catch (error) {
-    console.error('Error creating deals batch:', error);
-  }
-}
-
-async function runCreateDeals() {
-  // Split jsonData into batches of 100 (HubSpot's maximum batch size)
-  const dealBatches = [];
-  for (let i = 0; i < dealsData.length; i += 100) {
-    dealBatches.push(dealsData.slice(i, i + 100));
-  }
-
-  // Create deals
-  for (let i = 0; i < dealBatches.length; i++) {
-    console.log(`Creating deals batch ${i + 1}...`);
-    const deals = dealBatches[i]; // No email validation for deals
-    await createDealsBatch(ACCESS_TOKEN, deals);
-
-    // Handle rate limiting (100 requests per 10 seconds)
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 }
@@ -203,4 +127,4 @@ const runCreateContacts = async () => {
   }
 };
 // runCreateContacts();
-// runCreateDeals();
+runCreateDeals();
