@@ -62,7 +62,7 @@ const logDuplicateCompanies = () => {
 // logDuplicateCompanies();
 
 // console.log('Contacts: ', contactsData);
-// console.log('Deals: ', dealsData);
+console.log('Deals: ', dealsData);
 
 // Function to validate email address
 // Function to validate email address
@@ -203,5 +203,5 @@ const runCreateContacts = async () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 };
-runCreateContacts();
+// runCreateContacts();
 // runCreateDeals();
