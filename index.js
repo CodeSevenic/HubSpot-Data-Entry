@@ -202,5 +202,5 @@ const runCreateContacts = async () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 };
-runCreateContacts();
+// runCreateContacts();
 // runCreateDeals();
