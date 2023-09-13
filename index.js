@@ -12,7 +12,7 @@ console.log('API_KEY: ', ACCESS_TOKEN);
 // Configure axios-retry
 axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
-const workbook = xlsx.readFile('./bearbeitete_Zahnaerzte_Parsing_Hamburg_08.09.2023.xlsx');
+const workbook = xlsx.readFile('./zaekmv_Parsing_09_09_2023_17_42.xlsx');
 const sheet_name_list = workbook.SheetNames;
 let jsonData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
@@ -59,7 +59,7 @@ const logDuplicateCompanies = () => {
 
 // Call the new functions
 // logDuplicateEmails();
-// logDuplicateCompanies();
+logDuplicateCompanies();
 
 // console.log('Contacts: ', contactsData);
 // console.log('Deals: ', dealsData);
@@ -203,5 +203,5 @@ const runCreateContacts = async () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 };
-// runCreateContacts();
+runCreateContacts();
 // runCreateDeals();
