@@ -12,7 +12,7 @@ console.log('API_KEY: ', ACCESS_TOKEN);
 // Configure axios-retry
 axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
-const workbook = xlsx.readFile('./Aerzte_BW_Parsing_Leads_Ready.xlsx');
+const workbook = xlsx.readFile('./bearbeitete_Zahnaerzte_Parsing_Hamburg_08.09.2023.xlsx');
 const sheet_name_list = workbook.SheetNames;
 let jsonData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
@@ -178,7 +178,7 @@ async function runCreateDeals() {
   // Create deals
   for (let i = 0; i < dealBatches.length; i++) {
     console.log(`Creating deals batch ${i + 1}...`);
-    const deals = dealBatches[i]; // No email validation for deals
+    const deals = dealBatches[i].filter((contact) => validateEmail(contact['E-Mail'])); // Only valid emails;
     await createDealsBatch(ACCESS_TOKEN, deals);
 
     // Handle rate limiting (100 requests per 10 seconds)
@@ -204,4 +204,4 @@ const runCreateContacts = async () => {
   }
 };
 // runCreateContacts();
-// runCreateDeals();
+runCreateDeals();
