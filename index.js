@@ -58,7 +58,7 @@ const logDuplicateCompanies = () => {
 };
 
 // Call the new functions
-logDuplicateEmails();
+// logDuplicateEmails();
 // logDuplicateCompanies();
 
 // console.log('Contacts: ', contactsData);
