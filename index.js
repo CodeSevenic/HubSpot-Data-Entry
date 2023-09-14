@@ -12,7 +12,7 @@ console.log('API_KEY: ', ACCESS_TOKEN);
 // Configure axios-retry
 axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
-const workbook = xlsx.readFile('./LZKB_Parsing_12_09_2023_13_59.xlsx');
+const workbook = xlsx.readFile('./zaekBerlin_Parsing_13_09_2023_17_56.xlsx');
 const sheet_name_list = workbook.SheetNames;
 let jsonData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
@@ -61,7 +61,7 @@ const logDuplicateCompanies = () => {
 // logDuplicateEmails();
 // logDuplicateCompanies();
 
-// console.log('Contacts: ', contactsData);
+console.log('Contacts: ', contactsData);
 // console.log('Deals: ', dealsData);
 
 // Function to validate email address
