@@ -61,7 +61,7 @@ const logDuplicateCompanies = () => {
 // logDuplicateEmails();
 // logDuplicateCompanies();
 
-console.log('Contacts: ', contactsData);
+// console.log('Contacts: ', contactsData);
 // console.log('Deals: ', dealsData);
 
 // Function to validate email address
