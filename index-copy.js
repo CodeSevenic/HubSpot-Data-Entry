@@ -127,4 +127,4 @@ const runCreateContacts = async () => {
   }
 };
 // runCreateContacts();
-runCreateDeals();
+// runCreateDeals();
