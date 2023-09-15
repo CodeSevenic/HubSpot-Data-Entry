@@ -12,7 +12,7 @@ console.log('API_KEY: ', ACCESS_TOKEN);
 // Configure axios-retry
 axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
-const workbook = xlsx.readFile('./zaekBerlin_Parsing_13_09_2023_17_56.xlsx');
+const workbook = xlsx.readFile('./ZaeK_Schleswig_Holstein_Parsing_14_09_2023_01_34.xlsx');
 const sheet_name_list = workbook.SheetNames;
 let jsonData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
@@ -203,5 +203,5 @@ const runCreateContacts = async () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 };
-// runCreateContacts();
+runCreateContacts();
 // runCreateDeals();
